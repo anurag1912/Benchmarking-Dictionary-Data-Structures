@@ -1,3 +1,5 @@
+/* Hash function used: djb2 */
+
 #include<iostream>
 #include<string>
 #include<fstream>
