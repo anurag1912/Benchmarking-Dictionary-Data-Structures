@@ -1,0 +1,70 @@
+#include<iostream>
+#include<map>
+#include<fstream>
+#include<string>
+#include<algorithm>
+
+int main()
+{
+	  std::map<std::string,unsigned long long> mymap;
+		unsigned long long index=0;
+	std::ifstream fin("Database.txt");
+	if(!fin.is_open())
+	{
+	
+		std::cout<<"Cannot open file! Terminating...\n";
+		return 1;
+	}	
+	std::string s;
+	std::string temp;
+	int i; unsigned long count =0;
+	while(getline(fin,s))
+	{	i=0;
+		while(s[i])
+		{	if(s[i]>='A' && s[i]<='Z' || s[i]>='0'&&s[i]<='9'||s[i]>='a' && s[i]<='z')
+				temp += s[i++];
+			else
+			switch(s[i]) {
+				case '-':
+				
+				case '\'':
+				{	if(!temp.empty())
+						temp+=s[i];
+					
+					
+					i++;
+					break;
+				}
+					
+				default: {
+					if(!temp.empty())
+					{std::transform(temp.begin(), temp.end(), temp.begin(), ::tolower);
+					mymap.insert(std::make_pair(temp,index++));
+					//std::cout<<temp<<"\n";	//insert
+					temp.clear();
+					//count++;
+					}
+					i++;
+					break;
+				}
+				
+					
+			}			
+		}
+	
+	}
+	if(!temp.empty()){
+	std::transform(temp.begin(), temp.end(), temp.begin(), ::tolower);
+	mymap.insert(std::make_pair(temp,index++));	
+		//std::cout<<temp<<"\n";			//insert!!
+	//	count++;
+	}
+	
+	
+	fin.close();
+	
+	
+	
+	
+	return 0;
+}
