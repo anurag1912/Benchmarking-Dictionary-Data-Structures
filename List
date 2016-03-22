@@ -1,0 +1,126 @@
+#include<iostream>
+#include<string>
+#include<algorithm>
+#include<fstream>
+struct List{
+	
+	std::string s;
+	List *next;
+	
+};
+List * search(std::string s, List *head);
+List * insert(std::string s, List *head);
+int main()
+{
+	
+	List *head = NULL;
+	//std::string s[] = {"Anurag", "anurag","Happy","ANUrAG","Strive!!"};
+	 //std::transform(s[0].begin(), s[0].end(), s[0].begin(), ::tolower);
+	//head->s = s[0];
+std::ifstream fin("Database.txt");
+	if(!fin.is_open())
+	{
+	
+		std::cout<<"Cannot open file! Terminating...\n";
+		return 1;
+	}	
+	std::string s;
+	std::string temp;
+	int i; unsigned long count =0;
+	while(getline(fin,s))
+	{	i=0;
+		while(s[i])
+		{	if(s[i]>='A' && s[i]<='Z' || s[i]>='0'&&s[i]<='9'||s[i]>='a' && s[i]<='z')
+				temp += s[i++];
+			else
+			switch(s[i]) {
+				case '-':
+				
+				case '\'':
+				{	if(!temp.empty())
+						temp+=s[i];
+					
+					
+					i++;
+					break;
+				}
+					
+				default: {
+					if(!temp.empty())
+					{
+						head = 	insert(temp,head);
+					temp.clear();
+					count++;
+					}
+					i++;
+					break;
+				}
+				
+					
+			}			
+		}
+	
+	}
+	if(!temp.empty()){
+			head = 	insert(temp,head);
+		count++;
+	}
+//	std::cout<<"Number of words = "<<count<<"\n";
+	
+	fin.close();
+	
+		
+	
+
+		
+	
+	
+	/*
+	while(head!=NULL)
+	{
+		std::cout<<head->s<<"\n";
+		head= head->next;
+	}
+	
+	*/
+	return 0;
+}
+
+
+
+
+List * search(std::string s, List *head) {
+	std::transform(s.begin(), s.end(), s.begin(), ::tolower);
+	 
+	while(head->next!=NULL && head->s!=s)
+		head = head->next;
+		
+		return head;			
+		}
+	
+
+
+
+List * insert(std::string s, List *head){
+	List *tmp;
+	if(head==NULL) {
+		head = new List;
+		head->s = s;
+		head->next = NULL;
+	}
+	else{
+	
+	tmp = search(s, head);
+	
+	if(tmp->next==NULL)	 {
+		if(tmp->s!=s){
+		
+		tmp->next = new List;
+		tmp->next->s = s;
+		tmp->next->next = NULL;
+	}
+	}
+}
+
+return head;
+}
